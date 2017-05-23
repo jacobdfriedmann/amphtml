@@ -133,7 +133,11 @@ class AmpAddThis extends AMP.BaseElement {
     this.win.addEventListener(
         'message', event => this.handleAddThisMessages_(event));
 
-    return this.iframePromise_ = loadPromise(iframe).then(() => this.listenToFrame_());
+    return this.iframePromise_ = loadPromise(iframe)
+      .then(() => {
+        return timerFor(this.win).promise(300);
+      })
+      .then(() => this.listenToFrame_());
   }
 
   /** @private */
